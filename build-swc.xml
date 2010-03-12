@@ -1,0 +1,47 @@
+<!--
+ To build as3oauth.swc, use
+
+   compc -load-config=build-swc.xml
+   acompc -load-config=build-swc.xml
+
+ That is all.
+      <path-element>${flexlib}/libs/player/10/playerglobal.swc</path-element>
+-->
+<flex-config>
+  <target-player>10.0.0</target-player>
+  <compiler>
+    <external-library-path>
+      <path-element>${flexlib}/libs/air/airglobal.swc</path-element>
+      <path-element>lib/corelib-20070830.swc</path-element>
+      <path-element>lib/as3saxparser-1_0_5.swc</path-element>
+      <path-element>lib/as3jcode-1_0_3.swc</path-element>
+    </external-library-path>
+    <source-path>
+      <path-element>src</path-element>
+    </source-path>
+  </compiler>
+  <include-classes>
+      <class>org.coderepos.webservices.mixi.login.MixiLoginTransaction</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoice</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoiceBuffer</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoiceSAXHandler</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoiceEndpoint</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoiceElementClassType</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoiceRetrievalTransaction</class>
+      <class>org.coderepos.webservices.mixi.voice.MixiVoicePostTransaction</class>
+      <class>org.coderepos.webservices.mixi.events.MixiLoginEvent</class>
+      <class>org.coderepos.webservices.mixi.events.MixiPostKeyEvent</class>
+      <class>org.coderepos.webservices.mixi.events.MixiVoiceEvent</class>
+      <class>org.coderepos.webservices.mixi.events.MixiVoiceErrorEvent</class>
+      <class>org.coderepos.webservices.mixi.events.MixiVoiceParserEvent</class>
+      <class>org.coderepos.webservices.mixi.exceptions.MixiProtocolError</class>
+  </include-classes>
+  <metadata>
+    <creator>Lyo Kato</creator>
+    <description>http://github.com/lyokato/as3mixivoice.git</description>
+    <language>EN</language>
+    <title>AS3 Mixi Voice Client Library</title>
+  </metadata>
+  <output>bin/as3mixivoice-1_0_0.swc</output>
+</flex-config>
+
