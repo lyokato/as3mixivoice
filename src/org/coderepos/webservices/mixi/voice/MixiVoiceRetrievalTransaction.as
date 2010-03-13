@@ -73,15 +73,19 @@ package org.coderepos.webservices.mixi.voice
                 return;
             }
             var pageUTFBytes:ByteArray = Jcode.euc_utf8(pageEUCBytes);
-            // TODO: check if it's voice-page or not.
             var parser:XMLSAXParser = new XMLSAXParser();
             var handler:MixiVoiceSAXHandler = new MixiVoiceSAXHandler();
             handler.addEventListener(MixiPostKeyEvent.FOUND, foundPostKeyHandler);
             handler.addEventListener(MixiVoiceParserEvent.PARSED, parsedVoiceHandler);
             parser.handler = handler;
             try {
-                // XXX: too much memory? change to use loop
-                parser.pushBytes(pageUTFBytes);
+                while (pageUTFBytes.bytesAvailable > 0) {
+                    var fragment:ByteArray = new ByteArray();
+                    var len:uint = (pageUTFBytes.bytesAvailable > 512)
+                        ? 512 : pageUTFBytes.bytesAvailable;
+                    pageUTFBytes.readBytes(fragment, 0, len);
+                    parser.pushBytes(fragment);
+                }
             } catch (e:*) {
                 dispatchEvent(new MixiVoiceErrorEvent(
                     MixiVoiceErrorEvent.ERROR, e.message));

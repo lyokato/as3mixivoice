@@ -17,9 +17,14 @@ package suite
         private var _voices:Array;
         private var _postKey:String;
 
+        private var cookie:String;
+        private var postKey:String;
+
         public function VoiceTest(meth:String)
         {
             super(meth);
+            cookie = "";
+            postKey = "";
         }
 
         public static function suite():TestSuite
@@ -32,8 +37,6 @@ package suite
 
         public function testPost():void
         {
-            var cookie:String = '';
-            var postKey:String = '';
             var txn:MixiVoicePostTransaction = new MixiVoicePostTransaction(cookie, postKey);
             txn.addEventListener(MixiVoiceEvent.POSTED, addAsync(postedHandler, 3600));
             //txn.addEventListener(MixiVoiceErrorEvent.ERROR, errorHandler);
@@ -51,12 +54,11 @@ package suite
         {
             _voices = [];
             _postKey = null;
-            var cookie:String = "";
             var txn:MixiVoiceRetrievalTransaction = new MixiVoiceRetrievalTransaction(cookie);
             txn.addEventListener(MixiVoiceEvent.RETRIEVED, retrievedHandler);
             txn.addEventListener(MixiPostKeyEvent.FOUND, postKeyHandler);
-            txn.addEventListener(MixiVoiceEvent.COMPLETE, addAsync(completeHandler, 3600));
-            //txn.addEventListener(MixiVoiceErrorEvent.ERROR, retrieved);
+            //txn.addEventListener(MixiVoiceEvent.COMPLETE, addAsync(completeHandler, 3600));
+            txn.addEventListener(MixiVoiceErrorEvent.ERROR, addAsync(errorHandler, 3600));
             //txn.addEventListener(IOErrorEvent.IO_ERROR, dummyIO);
             //txn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, dummySEC);
             txn.start();
@@ -74,14 +76,14 @@ package suite
 
         private function completeHandler(e:MixiVoiceEvent):void
         {
-            assertEquals(_postKey, "aaa");
-            assertEquals(_voices[0].toString(), '');
+            //assertEquals(_postKey, "aaa");
+            //assertEquals(_voices[0].toString(), '');
             assertEquals(_voices.length, 3);
         }
 
         private function errorHandler(e:MixiVoiceErrorEvent):void
         {
-
+            assertEquals(e.message, '');
         }
 
         private function dummyIO(e:SecurityErrorEvent):void

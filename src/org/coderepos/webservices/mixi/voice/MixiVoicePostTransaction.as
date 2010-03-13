@@ -56,8 +56,9 @@ package org.coderepos.webservices.mixi.voice
             if (_isRetrieving)
                 throw new Error("Alerady retrieving");
 
-            // TODO:
-            // validateLength(message);
+            var messageBytes:ByteArray = Jcode.to_euc(message);
+            if (messageBytes.length > 150)
+                throw new ArgumentError("message length is over 150.");
 
             _isRetrieving = true;
             var req:URLRequest = new URLRequest(MixiVoiceEndpoint.POST);
@@ -77,7 +78,7 @@ package org.coderepos.webservices.mixi.voice
             }
             params.writeUTFBytes("&redirect=recent_echo");
             params.writeUTFBytes("&body=");
-            params.writeUTFBytes(Jcode.encodeURIComponentBytes(Jcode.to_euc(message)));
+            params.writeUTFBytes(Jcode.encodeURIComponentBytes(messageBytes));
             params.position = 0;
             req.data = params;
 
